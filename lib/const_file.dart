@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const String profileImage = 'assets/user.png';
 const String tipGif = 'assets/delivery.gif';
+const String food = 'assets/food.jpeg';
 
 
 //padding
