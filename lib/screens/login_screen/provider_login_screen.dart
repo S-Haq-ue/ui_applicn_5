@@ -30,22 +30,31 @@ class LoginScreenProvider with ChangeNotifier {
   }
 
   Future<String?> login() async {
+    if (!_formKey.currentState!.validate()) {
+      return null;
+    }
+    _isLoading = true;
+    notifyListeners();
     try {
       var userId = await AuthService().login(email: _emailController.text, password: _passwordController.text);
       final userData = await FirebaseFirestore.instance.collection("users").doc(userId).get();
-      CommonProvider commonProvider=CommonProvider();
-      commonProvider.userData=UserDetails(name: userData["name"], email: userData["email"]);
+      CommonProvider commonProvider = CommonProvider();
+      commonProvider.userData = UserDetails(name: userData["name"], email: userData["email"]);
+      _isLoading = false;
+      notifyListeners();
       return "Auth Success";
     } catch (e) {
+      _isLoading = false;
+      notifyListeners();
       return e.toString();
     }
   }
 
   Future<String?> googleSignIn() async {
     try {
-      var abc= await AuthService().googleSignIn();
-      CommonProvider commonProvider=CommonProvider();
-      commonProvider.userData=UserDetails(name: abc?.displayName??"",email: abc?.email??"");
+      var abc = await AuthService().googleSignIn();
+      CommonProvider commonProvider = CommonProvider();
+      commonProvider.userData = UserDetails(name: abc?.displayName ?? "", email: abc?.email ?? "");
       return "Auth Success";
     } on FirebaseAuthException catch (e) {
       return e.toString();
