@@ -15,7 +15,9 @@ class Body extends StatelessWidget {
     return Consumer<ProductDetailsProvider>(
       builder: (context, productDetailsProvider, child) {
         return Scaffold(
-          appBar: const CustomAppBar(title: "Name",),
+          appBar: const CustomAppBar(
+            title: "Name",
+          ),
           body: SafeArea(
               child: SingleChildScrollView(
             child: Column(
@@ -56,7 +58,7 @@ class Body extends StatelessWidget {
                               width: 200,
                               child: Text(
                                 "While you're celebrating with your loved ones, our delivery partners are working hard. Tip them and make their Diwali special too!",
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.poppins(color: Colors.black),
                               ),
                             ),
                             const Spacer(),
@@ -64,30 +66,92 @@ class Body extends StatelessWidget {
                               height: 100,
                               width: 100,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: primaryColor,
-                              ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: primaryColor,
+                                  image: const DecorationImage(
+                                      image: ExactAssetImage(
+                                        tipGif,
+                                      ),
+                                      fit: BoxFit.cover)),
                             ),
                           ],
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.025,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: List.generate(
-                            productDetailsProvider.tips.length,
-                            (index) => Card(
-                              color: primaryColor,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: paddingValue, horizontal: paddingValue + 10),
-                                child: Center(
-                                  child: Text(productDetailsProvider.tips[index]),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: List.generate(
+                              productDetailsProvider.tips.length,
+                              (index) => GestureDetector(
+                                onTap: () => productDetailsProvider.selectedintex = index,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    side: BorderSide(
+                                      color: productDetailsProvider.selectedintex == index
+                                          ? Colors.deepOrange
+                                          : primaryColor,
+                                      width: productDetailsProvider.selectedintex == index ? 2.0 : 0.0,
+                                    ),
+                                  ),
+                                  color: productDetailsProvider.selectedintex == index ? hintColor : primaryColor,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: paddingValue,
+                                        horizontal: productDetailsProvider.selectedintex == index
+                                            ? paddingValue
+                                            : paddingValue + 10),
+                                    child: Row(
+                                      children: [
+                                        Text(productDetailsProvider.tips[index]),
+                                        if (productDetailsProvider.selectedintex == index)
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                        if (productDetailsProvider.selectedintex == index)
+                                          const Icon(
+                                            Bootstrap.x_circle_fill,
+                                            color: Colors.deepOrange,
+                                          )
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Divider(
+                          thickness: 2,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 1.5,
+                              child: Checkbox(
+                                value: productDetailsProvider.checkBoxValue,
+                                onChanged: (value) {
+                                  productDetailsProvider.checkBoxValue = !productDetailsProvider.checkBoxValue;
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              width: 280,
+                              child: Text(
+                                "Add this tip automatically to future orders",
+                                style: GoogleFonts.poppins(color: Colors.grey),
+                              ),
+                            )
+                          ],
                         )
                       ],
                     ),
@@ -125,7 +189,7 @@ class ProductDetails extends StatelessWidget {
     return Card(
       color: secondaryColor,
       child: Padding(
-        padding: const EdgeInsets.all(paddingValue + 4),
+        padding: const EdgeInsets.all(paddingValue + 6),
         child: Column(
           children: [
             Stack(

@@ -16,16 +16,20 @@ class CustomDrawer extends StatelessWidget {
             decoration: const BoxDecoration(
               color: primaryColor,
             ),
-            child:  const Column(
+            child: Column(
               children: [
-                SizedBox(height: 50,),
-                CircleAvatar(
-                  backgroundColor: secondaryColor,
-                  radius: 75.0,
+                const SizedBox(
+                  height: 50,
                 ),
-                SizedBox(height: 20,),
-                Text("Name"),
-                Text("email"),
+                CircleAvatar(
+                  radius: 75.0,
+                  child: Image.asset(profileImage,fit: BoxFit.cover,color: Colors.black54,),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text("Name"),
+                const Text("email"),
               ],
             ),
           ),
