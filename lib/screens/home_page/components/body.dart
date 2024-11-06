@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:ui_applicn_5/Provider/common_provider.dart';
 import 'package:ui_applicn_5/const_file.dart';
 import 'package:ui_applicn_5/screens/home_page/provider_home_screen.dart';
 import 'package:ui_applicn_5/screens/product_details/product_details_screen.dart';
@@ -13,8 +14,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(
-      builder: (context, homeProvider, child) {
+    return Consumer2<HomeProvider, CommonProvider>(
+      builder: (context, homeProvider, commonProvider, child) {
         Future.delayed(
           const Duration(seconds: 1),
           () {
@@ -51,7 +52,7 @@ class Body extends StatelessWidget {
                                     style: GoogleFonts.poppins(fontSize: 16, color: Colors.black),
                                     children: [
                                       TextSpan(
-                                        text: "name",
+                                        text: commonProvider.userData.name,
                                         style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black),
                                       ),
                                     ],
@@ -98,7 +99,7 @@ class Body extends StatelessWidget {
             title: "Foody",
           ),
           drawer: CustomDrawer(
-            userDetails: homeProvider.userDetails,
+            userDetails: commonProvider.userData,
           ),
           body: SafeArea(
               child: SingleChildScrollView(

@@ -9,8 +9,9 @@ class AuthService {
     required String password,
   }) async {
     try {
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      return "Auth Success";
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      String uid = userCredential.user!.uid;
+      return uid;
     } on FirebaseAuthException catch (e) {
       return e.toString();
     }
@@ -21,8 +22,9 @@ class AuthService {
     required String password,
   }) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return "Auth Success";
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      String uid = userCredential.user!.uid;
+      return uid;
     } on FirebaseAuthException catch (e) {
       return e.toString();
     }
@@ -42,7 +44,7 @@ class AuthService {
     final GoogleSignInAuthentication? googleAuthdata = await googleUser?.authentication;
     final AuthCredential userCred =
         GoogleAuthProvider.credential(idToken: googleAuthdata?.idToken, accessToken: googleAuthdata?.accessToken);
-        UserCredential userCredential= await _auth.signInWithCredential(userCred); 
+    UserCredential userCredential = await _auth.signInWithCredential(userCred);
     return userCredential.user;
   }
 }

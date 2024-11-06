@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_applicn_5/Provider/common_provider.dart';
 import 'package:ui_applicn_5/services/auth_service.dart';
+import 'package:ui_applicn_5/services/user_model.dart';
 
 class RegistrationScreenProvider with ChangeNotifier {
   final _emailController = TextEditingController();
@@ -37,12 +40,20 @@ class RegistrationScreenProvider with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      var status = await AuthService().signUp(email: _emailController.text, password: _passwordController.text);
-
-      
+      var userId = await AuthService().signUp(email: _emailController.text, password: _passwordController.text);
+      //store user details in firestore
+      FirebaseFirestore.instance.collection("users").doc(userId).set({
+        "name": _nameController.text,
+        "email": _emailController.text,
+      });
+      CommonProvider commonProvider = CommonProvider();
+      commonProvider.userData = UserDetails(
+        name: _nameController.text,
+        email: _emailController.text,
+      );
       _isLoading = false;
       notifyListeners();
-      return status;
+      return "Auth Success";
     } catch (e) {
       _isLoading = false;
       notifyListeners();

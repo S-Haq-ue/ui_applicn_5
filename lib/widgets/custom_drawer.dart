@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ui_applicn_5/const_file.dart';
 import 'package:ui_applicn_5/services/user_model.dart';
 
@@ -34,8 +35,14 @@ class CustomDrawer extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Text(userDetails!.name),
-                Text(userDetails!.email),
+                Text(
+                  userDetails!.name,
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  userDetails!.email,
+                  style: GoogleFonts.poppins(),
+                ),
               ],
             ),
           ),
