@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ui_applicn_5/const_file.dart';
+import 'package:ui_applicn_5/services/user_model.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+  final UserDetails? userDetails;
+  const CustomDrawer({super.key, this.userDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +25,17 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 CircleAvatar(
                   radius: 75.0,
-                  child: Image.asset(profileImage,fit: BoxFit.cover,color: Colors.black54,),
+                  child: Image.asset(
+                    profileImage,
+                    fit: BoxFit.cover,
+                    color: Colors.black54,
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const Text("Name"),
-                const Text("email"),
+                Text(userDetails!.name),
+                Text(userDetails!.email),
               ],
             ),
           ),

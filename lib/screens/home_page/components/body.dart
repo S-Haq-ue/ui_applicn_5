@@ -94,8 +94,12 @@ class Body extends StatelessWidget {
           },
         );
         return Scaffold(
-          appBar: const CustomAppBar(title: "Foody",),
-          drawer: const CustomDrawer(),
+          appBar: const CustomAppBar(
+            title: "Foody",
+          ),
+          drawer: CustomDrawer(
+            userDetails: homeProvider.userDetails,
+          ),
           body: SafeArea(
               child: SingleChildScrollView(
             child: Column(

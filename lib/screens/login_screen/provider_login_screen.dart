@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_applicn_5/services/auth_service.dart';
 
-
-class LoginScreenProvider with ChangeNotifier{
+class LoginScreenProvider with ChangeNotifier {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailFocusNode = FocusNode();
@@ -23,6 +24,20 @@ class LoginScreenProvider with ChangeNotifier{
   void changepasswodVisibility() {
     _passwordVisibility = !_passwordVisibility;
     notifyListeners();
+  }
+
+  Future<String?> login() async {
+    var status = await AuthService().login(email: _emailController.text, password: _passwordController.text);
+    return status;
+  }
+
+  Future<String?> googleSignIn() async {
+    try {
+      await AuthService().googleSignIn();
+      return "Auth Success";
+    } on FirebaseAuthException catch (e) {
+      return e.toString();
+    }
   }
 
   @override

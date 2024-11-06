@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ui_applicn_5/services/auth_service.dart';
 
-
-class RegistrationScreenProvider with ChangeNotifier{
+class RegistrationScreenProvider with ChangeNotifier {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -31,6 +31,23 @@ class RegistrationScreenProvider with ChangeNotifier{
   void changepasswodVisibility() {
     _passwordVisibility = !_passwordVisibility;
     notifyListeners();
+  }
+
+  Future<String?> register() async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      var status = await AuthService().signUp(email: _emailController.text, password: _passwordController.text);
+
+      
+      _isLoading = false;
+      notifyListeners();
+      return status;
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      return e.toString();
+    }
   }
 
   @override

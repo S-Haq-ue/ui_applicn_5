@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:ui_applicn_5/const_file.dart';
+import 'package:ui_applicn_5/screens/home_page/home_screen.dart';
 import 'package:ui_applicn_5/screens/login_screen/login_screen.dart';
 import 'package:ui_applicn_5/screens/registration_screen/provider_registration_screen.dart';
 import 'package:ui_applicn_5/widgets/custom_button.dart';
@@ -97,7 +97,8 @@ class Body extends StatelessWidget {
                           },
                           // onFieldSubmitted: (mobile) async =>
                           //     loginClick(context: context, loginFuction: registrationScreenProvider.login),
-                        ),const SizedBox(
+                        ),
+                        const SizedBox(
                           height: 10,
                         ),
                         CustomTextField(
@@ -123,8 +124,8 @@ class Body extends StatelessWidget {
                         ),
                         CustomButton(
                           isLoading: registrationScreenProvider.isLoading,
-                          onPressed: () {},
-                          // onPressed: () => loginClick(context: context, loginFuction: registrationScreenProvider.login),
+                          onPressed: () =>
+                              registerClick(context: context, loginFuction: registrationScreenProvider.register),
                           child: const Text(
                             'Register',
                             textScaler: TextScaler.linear(1),
@@ -144,21 +145,6 @@ class Body extends StatelessWidget {
                             style: TextStyle(color: secondaryColor),
                           ),
                         ),
-                        const Text(
-                          "Or",
-                          textScaler: TextScaler.linear(1),
-                          style: TextStyle(color: secondaryColor),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(onPressed: () {}, icon: Brand(Brands.google)),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            IconButton(onPressed: () {}, icon: Brand(Brands.twitterx_2)),
-                          ],
-                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -174,19 +160,14 @@ class Body extends StatelessWidget {
     );
   }
 
-  void loginClick({required BuildContext context, required Future<String?> Function() loginFuction}) async {
+  void registerClick({required BuildContext context, required Future<String?> Function() loginFuction}) async {
     FocusScope.of(context).unfocus();
     ScaffoldMessenger.of(context).clearSnackBars();
     try {
       String? loginStatus = await loginFuction();
-      if (loginStatus == 'Login successful') {
+      if (loginStatus == 'Auth Success') {
         // ignore: use_build_context_synchronously
-        // context.goNamed(
-        //   HomeScreen.classId,
-        //   extra: {
-        //     'isLogingIn': true,
-        //   },
-        // );
+        Navigator.of(context).pushNamed(HomeScreen.classId);
       } else if (loginStatus == null) {
       } else {
         // ignore: use_build_context_synchronously
