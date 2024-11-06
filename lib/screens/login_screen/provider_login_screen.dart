@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_applicn_5/Provider/common_provider.dart';
 import 'package:ui_applicn_5/services/auth_service.dart';
+import 'package:ui_applicn_5/services/user_model.dart';
 
 class LoginScreenProvider with ChangeNotifier {
   final _emailController = TextEditingController();
@@ -27,13 +30,22 @@ class LoginScreenProvider with ChangeNotifier {
   }
 
   Future<String?> login() async {
-    var status = await AuthService().login(email: _emailController.text, password: _passwordController.text);
-    return status;
+    try {
+      var userId = await AuthService().login(email: _emailController.text, password: _passwordController.text);
+      final userData = await FirebaseFirestore.instance.collection("users").doc(userId).get();
+      CommonProvider commonProvider=CommonProvider();
+      commonProvider.userData=UserDetails(name: userData["name"], email: userData["email"]);
+      return "Auth Success";
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   Future<String?> googleSignIn() async {
     try {
-      await AuthService().googleSignIn();
+      var abc= await AuthService().googleSignIn();
+      CommonProvider commonProvider=CommonProvider();
+      commonProvider.userData=UserDetails(name: abc?.displayName??"",email: abc?.email??"");
       return "Auth Success";
     } on FirebaseAuthException catch (e) {
       return e.toString();

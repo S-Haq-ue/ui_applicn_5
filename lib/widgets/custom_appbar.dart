@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:ui_applicn_5/Provider/common_provider.dart';
 import 'package:ui_applicn_5/const_file.dart';
+import 'package:ui_applicn_5/screens/login_screen/login_screen.dart';
+import 'package:ui_applicn_5/services/auth_service.dart';
+import 'package:ui_applicn_5/services/user_model.dart';
 import 'package:ui_applicn_5/widgets/custom_button.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   const CustomAppBar({
-    super.key, required this.title,
+    super.key,
+    required this.title,
   });
 
   @override
@@ -40,9 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: Container(
                     height: 200,
                     width: 0,
-                    decoration: BoxDecoration(
-                      color: primaryColor,borderRadius: BorderRadius.circular(15)
-                    ),
+                    decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(15)),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -65,7 +68,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             children: [
                               CustomButton(
                                 isLoading: false,
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  await AuthService().logOut();
+                                  CommonProvider().userData = UserDetails(name: "", email: "");
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.of(context).pop();
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.of(context).pushNamed(LoginScreen.classId);
+                                },
                                 child: const Text(
                                   "YES",
                                   textScaler: TextScaler.linear(1),
