@@ -16,7 +16,7 @@ class Body extends StatelessWidget {
       builder: (context, productDetailsProvider, child) {
         return Scaffold(
           appBar: const CustomAppBar(
-            title: "Name",
+            title: "Cake Trends",
           ),
           body: SafeArea(
               child: SingleChildScrollView(
@@ -66,13 +66,15 @@ class Body extends StatelessWidget {
                               height: 100,
                               width: 100,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: primaryColor,
-                                  image: const DecorationImage(
-                                      image: ExactAssetImage(
-                                        tipGif,
-                                      ),
-                                      fit: BoxFit.cover)),
+                                borderRadius: BorderRadius.circular(20),
+                                color: primaryColor,
+                                image: const DecorationImage(
+                                  image: ExactAssetImage(
+                                    tipGif,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -106,7 +108,10 @@ class Body extends StatelessWidget {
                                             : paddingValue + 10),
                                     child: Row(
                                       children: [
-                                        Text(productDetailsProvider.tips[index]),
+                                        Text(
+                                          productDetailsProvider.tips[index],
+                                          style: GoogleFonts.poppins(color: Colors.black),
+                                        ),
                                         if (productDetailsProvider.selectedintex == index)
                                           const SizedBox(
                                             width: 10,
@@ -148,7 +153,7 @@ class Body extends StatelessWidget {
                               width: 280,
                               child: Text(
                                 "Add this tip automatically to future orders",
-                                style: GoogleFonts.poppins(color: Colors.grey),
+                                style: GoogleFonts.poppins(color: Colors.grey[700]),
                               ),
                             )
                           ],
@@ -166,7 +171,6 @@ class Body extends StatelessWidget {
           bottomNavigationBar: CustomButton(
             isLoading: false,
             onPressed: () {},
-            // onPressed: () => loginClick(context: context, loginFuction: loginPageProvider.login),
             child: Text(
               'Place Order',
               textScaler: const TextScaler.linear(1),
@@ -197,14 +201,39 @@ class ProductDetails extends StatelessWidget {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.3,
                   width: MediaQuery.of(context).size.width * 0.8,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: primaryColor),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: primaryColor,
+                      image: const DecorationImage(
+                          image: ExactAssetImage(
+                            food,
+                          ),
+                          fit: BoxFit.cover)),
                 ),
-                const Positioned(
-                  top: 20,
-                  right: 20,
-                  child: Icon(
-                    Bootstrap.heart,
-                    color: Colors.grey,
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: const LinearGradient(
+                      colors: [
+                        Colors.transparent,
+                        Colors.black87,
+                      ],
+                      begin: Alignment.topRight,
+                      end: Alignment.centerLeft,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 30,
+                  right: 30,
+                  child: Transform.scale(
+                    scale: 1.5,
+                    child: const Icon(
+                      Bootstrap.heart,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 const Positioned(
@@ -215,15 +244,27 @@ class ProductDetails extends StatelessWidget {
                     children: [
                       Text(
                         "FLAT DEAL",
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: secondaryColor,
+                        ),
                       ),
                       Text(
                         "₹125 OFF",
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: secondaryColor,
+                        ),
                       ),
                       Text(
                         "ABOVE ₹199",
-                        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: secondaryColor,
+                        ),
                       ),
                     ],
                   ),
@@ -248,13 +289,13 @@ class ProductDetails extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            const Text(
+            Text(
               "bakery, Cakes...",
-              style: TextStyle(fontSize: 18, color: Colors.grey),
+              style: TextStyle(fontSize: 18, color: Colors.grey[700]),
             ),
-            const Text(
+            Text(
               "Padapai . 3.0 km",
-              style: TextStyle(fontSize: 18, color: Colors.grey),
+              style: TextStyle(fontSize: 18, color: Colors.grey[700]),
             ),
             const SizedBox(
               height: 5,

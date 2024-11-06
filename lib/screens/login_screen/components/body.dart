@@ -39,11 +39,11 @@ class Body extends StatelessWidget {
                           controller: loginPageProvider.emailController,
                           focusNode: loginPageProvider.emailFocusNode,
                           textInputAction: TextInputAction.next,
-                          validator: (mobile) {
-                            if (mobile!.isEmpty) {
-                              return 'Please enter mobile number';
-                            } else if (int.tryParse(mobile) == null || mobile.length != 9) {
-                              return 'Please enter a valid mobile number';
+                          validator: (email) {
+                            if (email!.isEmpty) {
+                              return 'Please enter email id';
+                            } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(email)) {
+                              return 'Please enter a valid email id';
                             }
                             return null;
                           },
@@ -74,8 +74,8 @@ class Body extends StatelessWidget {
                             }
                             return null;
                           },
-                          // onFieldSubmitted: (mobile) async =>
-                          //     loginClick(context: context, loginFuction: loginPageProvider.login),
+                          onFieldSubmitted: (mobile) async =>
+                              loginClick(context: context, loginFuction: loginPageProvider.login),
                         ),
                         const SizedBox(
                           height: 20,
@@ -163,7 +163,7 @@ class Body extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-            'Something went wrong, please contact support',
+            'Something went wrong.',
             textScaler: TextScaler.linear(1),
           ),
         ),

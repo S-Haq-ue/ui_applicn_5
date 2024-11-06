@@ -38,11 +38,11 @@ class Body extends StatelessWidget {
                           controller: registrationScreenProvider.emailController,
                           focusNode: registrationScreenProvider.emailFocusNode,
                           textInputAction: TextInputAction.next,
-                          validator: (mobile) {
-                            if (mobile!.isEmpty) {
-                              return 'Please enter mobile number';
-                            } else if (int.tryParse(mobile) == null || mobile.length != 9) {
-                              return 'Please enter a valid mobile number';
+                          validator: (email) {
+                            if (email!.isEmpty) {
+                              return 'Please enter email id';
+                            } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(email)) {
+                              return 'Please enter a valid email id';
                             }
                             return null;
                           },
@@ -62,9 +62,7 @@ class Body extends StatelessWidget {
                           textInputAction: TextInputAction.next,
                           validator: (mobile) {
                             if (mobile!.isEmpty) {
-                              return 'Please enter mobile number';
-                            } else if (int.tryParse(mobile) == null || mobile.length != 9) {
-                              return 'Please enter a valid mobile number';
+                              return 'Please enter your name';
                             }
                             return null;
                           },
@@ -95,29 +93,8 @@ class Body extends StatelessWidget {
                             }
                             return null;
                           },
-                          // onFieldSubmitted: (mobile) async =>
-                          //     loginClick(context: context, loginFuction: registrationScreenProvider.login),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        CustomTextField(
-                          hintText: 'Confirm Password',
-                          maxLength: 20,
-                          keyboardType: TextInputType.visiblePassword,
-                          controller: registrationScreenProvider.confirmPasswordController,
-                          focusNode: registrationScreenProvider.confirmPasswordFocusNode,
-                          textInputAction: TextInputAction.done,
-                          validator: (password) {
-                            if (password!.isEmpty) {
-                              return 'Please enter password';
-                            } else if (password.length < 6) {
-                              return 'Password must be at least 6 characters long';
-                            }
-                            return null;
-                          },
-                          // onFieldSubmitted: (mobile) async =>
-                          //     loginClick(context: context, loginFuction: registrationScreenProvider.login),
+                          onFieldSubmitted: (mobile) async =>
+                              registerClick(context: context, loginFuction: registrationScreenProvider.register),
                         ),
                         const SizedBox(
                           height: 20,
@@ -188,7 +165,7 @@ class Body extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-            'Something went wrong, please contact support',
+            'Something went wrong',
             textScaler: TextScaler.linear(1),
           ),
         ),
